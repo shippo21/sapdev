@@ -180,6 +180,7 @@ else {
 								if ($field == "contentdir") echo $messages["474"];
 								if ($field == "introfile") echo $messages["475"];
 								if ($field == "titleformat") echo $messages["476"];
+								if ($field == "urlformat") echo $messages["urlformat"];
 								if ($field == "publicserver") echo $messages["477"];
 								if ($field == "allowrelay") echo $messages["478"];
 								if ($field == "allowpublicrelay") echo $messages["479"];
@@ -218,6 +219,7 @@ else {
 								if ($field == "contentdir") echo $messages["504"];
 								if ($field == "introfile") echo $messages["505"];
 								if ($field == "titleformat") echo $messages["506"];
+								if ($field == "urlformat") echo $messages["urlformat1"];
 								if ($field == "publicserver") echo $messages["507"];
 								if ($field == "allowrelay") echo $messages["508"];
 								if ($field == "allowpublicrelay") echo $messages["509"];

@@ -150,6 +150,7 @@ if (stripos($_SERVER['PHP_SELF'], 'content.php') === false) {
             $updateget_var_t_contentdir = $updateget_var['contentdir'];
             $updateget_var_t_introfile = $updateget_var['introfile'];
             $updateget_var_t_titleformat = $updateget_var['titleformat'];
+            $updateget_var_t_urlformat = $updateget_var['urlformat'];
             $updateget_var_t_publicserver = $updateget_var['publicserver'];
             $updateget_var_t_metainterval = $updateget_var['metainterval'];
             $updateget_var_t_allowrelay = $updateget_var['allowrelay'];
@@ -484,6 +485,11 @@ if (stripos($_SERVER['PHP_SELF'], 'content.php') === false) {
     }?>"/>
     <span class="field_desc"><?php echo $messages["159"];?></span>
 </div>
+				<div class="input_field">
+					<label for="a"><?php echo $messages["urlformat"];?></label>
+					<input class="mediumfield" name="urlformat" type="text" value="<?php if ($_GET['action'] == "update") { echo $updateget_var_t_urlformat; } else { echo ""; }?>" />
+					<span class="field_desc"><?php echo $messages["urlformat1"];?></span>
+				</div> 
 <div class="input_field">
     <label for="a"><?php echo $messages["160"];?></label>
     <input class="mediumfield" name="publicserver" type="text" value="<?php if ($_GET['action'] == "update") {

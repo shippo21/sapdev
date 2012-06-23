@@ -770,6 +770,10 @@ $messages["dd14"]		=		"Shoutcast Config off";
 $messages["dd15"]		=		"captcha on";
 $messages["dd16"]		=		"captcha off";
 
+
+//
+$messages["urlformat"]  =      "HomepagesUrl with http://";
+$messages["urlformat1"]  =     "zb. http://www.deineurl.de";
 //
 //
 //	language credit

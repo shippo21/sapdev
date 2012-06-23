@@ -812,7 +812,9 @@ $messages["adm7"]		=		"Ihre Nachricht wurde erfolgreich gespeichert";
 $messages["adm7"]		=		"Achtung dieses Feld darf nicht leer sein!";
 $messages["adm"]		=		"Updates";
 
-
+//
+$messages["urlformat"]  =      "HomepagesUrl mit http://";
+$messages["urlformat1"]  =     "zb. http://www.deineurl.de";
 //
 //
 //	language credit
