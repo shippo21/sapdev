@@ -273,9 +273,9 @@ if (isset($_GET['view'])) {
                 @rmdir($dirname);
             }
 
-            //delete_directory("./uploads/" . $unlink_port_sql_port . "/");
-            //delete_directory("./temp/" . $unlink_port_sql_port . "/playlist/");
-            //delete_directory("./temp/" . $unlink_port_sql_port . "/");
+            delete_directory("./uploads/" . $unlink_port_sql_port . "/");
+            delete_directory("./temp/" . $unlink_port_sql_port . "/playlist/");
+            delete_directory("./temp/" . $unlink_port_sql_port . "/");
             if (mysql_query("DELETE FROM servers WHERE id='" . $_GET['view'] . "'")) {
                 $correc[] = "<h2>" . $messages["184"] . "</h2>";
             }
