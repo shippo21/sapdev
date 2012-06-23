@@ -75,7 +75,7 @@ if (isset($_GET['login']) && $_GET['login'] == "logout") {
 $loggedin = FALSE;
 
 
-if (isset($_SESSION['username']) && isset($_SESSION['user_password']) || isset($_POST['username']) && isset($_POST['user_password'])) {
+if (isset($_SESSION['username']) && isset($_SESSION['user_password']) || !empty($_POST['username']) && !empty($_POST['user_password'])) {
 
 
     if (isset($_POST['login_submit'])) {
