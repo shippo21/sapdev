@@ -89,7 +89,7 @@ if ($_GET['new'] == "server") {
 	    crossfadelength,
 	    useid3,
 	    public,
-	    autopid) VALUES('" . $_POST['owner'] . "', '" . $_POST['maxuser'] . "', '" . $_POST['portbase'] . "', '" . $_POST['bitrate'] . "', '" . $_POST['adminpassword'] . "', '" . $_POST['password'] . "', '" . $_POST['sitepublic'] . "', '" . getcwd() . "/logs/" . $_POST['logfile'] . "', '" . $_POST['realtime'] . "', '" . $_POST['screenlog'] . "', '" . $_POST['showlastsongs'] . "', '" . $_POST['tchlog'] . "', '" . $_POST['weblog'] . "', '" . $_POST['w3cenable'] . "', '" . getcwd() . "/logs/" . $_POST['w3clog'] . "', '" . $_POST['srcip'] . "', '" . $_POST['destip'] . "', '" . $_POST['yport'] . "', '" . $_POST['namelookups'] . "', '" . $_POST['relayport'] . "', '" . $_POST['relayserver'] . "', '" . $_POST['autodumpusers'] . "', '" . $_POST['autodumpsourcetime'] . "', '" . $_POST['contentdir'] . "', '" . $_POST['introfile'] . "', '" . $_POST['titleformat'] . "', '".$_POST['urlformat']."', '" . $_POST['publicserver'] . "', '" . $_POST['allowrelay'] . "', '" . $_POST['allowpublicrelay'] . "', '" . $_POST['metainterval'] . "', '" . ($_POST['webspace'] * 1024) . "', '" . $setting['host_add'] . "', '" . $_POST['portbase'] . "', 'Neuer Shoutcast AutoDJ', 'http://" . $setting['host_add'] . "', '1', '44100', '2', 'Jazz', '1', '1', '8000', '1', 'default', '" . $_POST['autopid'] . "')")
+	    autopid) VALUES('" . $_POST['owner'] . "', '" . $_POST['maxuser'] . "', '" . $_POST['portbase'] . "', '" . $_POST['bitrate'] . "', '" . $_POST['adminpassword'] . "', '" . $_POST['password'] . "', '" . $_POST['sitepublic'] . "', '" . getcwd() . "/logs/" . $_POST['logfile'] . "', '" . $_POST['realtime'] . "', '" . $_POST['screenlog'] . "', '" . $_POST['showlastsongs'] . "', '" . $_POST['tchlog'] . "', '" . $_POST['weblog'] . "', '" . $_POST['w3cenable'] . "', '" . getcwd() . "/logs/w3c/" . $_POST['w3clog'] . "', '" . $_POST['srcip'] . "', '" . $_POST['destip'] . "', '" . $_POST['yport'] . "', '" . $_POST['namelookups'] . "', '" . $_POST['relayport'] . "', '" . $_POST['relayserver'] . "', '" . $_POST['autodumpusers'] . "', '" . $_POST['autodumpsourcetime'] . "', '" . $_POST['contentdir'] . "', '" . $_POST['introfile'] . "', '" . $_POST['titleformat'] . "', '".$_POST['urlformat']."', '" . $_POST['publicserver'] . "', '" . $_POST['allowrelay'] . "', '" . $_POST['allowpublicrelay'] . "', '" . $_POST['metainterval'] . "', '" . ($_POST['webspace'] * 1024) . "', '" . $setting['host_add'] . "', '" . $_POST['portbase'] . "', 'AutoDJ', 'http://" . $setting['host_add'] . "', '1', '44100', '2', 'Jazz', '1', '1', '2000', '1', 'default', '" . $_POST['autopid'] . "')")
         ) {
             $old = umask(0);
             @mkdir("./uploads/" . $_POST['portbase'] . "", 0777);
@@ -113,12 +113,7 @@ if ($_GET['new'] == "update") {
         if ($key == "webspace") {
             $value = ($value * 1024);
         }
-        if ($key == "logfile") {
-            $value = (getcwd() . "/logs/" . $value);
-        }
-        if ($key == "w3clog") {
-            $value = (getcwd() . "/logs/" . $value);
-        }
+
         if ($key != "submit" && $value != "" && $key != "id") {
             $fields .= $key . "='" . $value . "', ";
             $lastfield = $key;
@@ -186,7 +181,7 @@ if (isset($_GET['view'])) {
                     }
                 }
                 if ($setting['os'] == 'linux') {
-                    $filename = "temp/" . mysql_result($radioport, 0) . "_" . time() . ".conf";
+                    $filename = "temp/conf/" . mysql_result($radioport, 0) . "_" . time() . ".conf";
                 }
                 if (!$handle = fopen($filename, 'a')) {
                     $errors[] = "<h2>" . $messages["178"] . "</h2>";
@@ -218,12 +213,48 @@ if (isset($_GET['view'])) {
                     mysql_query("UPDATE servers SET pid='$pid' WHERE id='" . $_GET['view'] . "'");
                     $correc[] = "<h2>" . $messages["181"] . "</h2>";
                     if ($setting["scs_config"] == "0") {
-                        //unlink($filename);
+                        unlink($filename);
                     }
                 }
             }
         }
     }
+    
+    //Anfang stop
+	
+						if (isset($_GET['action']) && $_GET['action']=="stop") {
+			$radioport = mysql_query("SELECT portbase FROM servers WHERE id='".$_GET['view']."'");
+			$connection = @fsockopen($setting['host_add'], mysql_result($radioport,0), $errno, $errstr, 1);
+			if (!$connection) {
+				$errors[] = "<h2>".$messages["519"]."</h2>";
+			}
+			else{
+				$pid = mysql_query("SELECT pid FROM servers WHERE id='".$_GET['view']."'");
+				if (mysql_result($pid,0)=="") {
+					$errors[] = "<h2>".$messages["520"]."</h2>";
+				}
+				else {
+					if ($setting["os"]=="windows") {
+						$WshShell = new COM("WScript.Shell");
+						$oExec = $WshShell->Run("taskkill /pid ".mysql_result($pid,0)." /f", 3, false);
+					}
+					if ($setting["os"]=="linux") {
+						$connection = ssh2_connect('localhost', $setting['ssh_port']);
+						ssh2_auth_password($connection, ''.base64_decode($setting['ssh_user']).'', ''.base64_decode($setting['ssh_pass']).'');
+						$ssh2_exec_com = ssh2_exec($connection, 'kill '.mysql_result($pid,0));
+						sleep(2);
+					}
+					$notifi[] = "<h2>".$messages["521"]."</h2>";
+				}
+			}
+		}
+	
+//Ende Stop	
+    
+    
+    
+    
+    
     if (isset($_GET['action']) && $_GET['action'] == "delete") {
         $unlink_port_sql = mysql_query("SELECT portbase FROM servers WHERE id='" . $_GET['view'] . "'");
         $pid = mysql_query("SELECT pid FROM servers WHERE id='" . $_GET['view'] . "'");
