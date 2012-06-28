@@ -579,6 +579,9 @@ if ($include_php == "upload") {
             ?>
             <nav class="navFirst">
                 <ul class="navMenu">
+                    <ul class="navMenu">
+                        <li><a href="loadContent-main" title="">Schnell&uuml;bersicht</a></li>
+                    </ul>
                     <li><a href="loadContent-contact" title=""><?php
                         echo htmlspecialchars($messages["31"]);
                         ?></a></li>
@@ -684,30 +687,30 @@ if ($include_php == "upload") {
         <div id="infoBox">
             <table class="ip_table">
                 <tbody>
-                <tr>
-                    <td class="ip_table"><?php
-                        echo $messages["46"];
-                        ?></td>
-                    <td class="ip_table_under"><?PHP
-                        echo ($_SERVER['REMOTE_ADDR']);
-                        ?></td>
-                </tr>
-                <tr>
-                    <td class="ip_table"><?php
-                        echo $messages["47"];
-                        ?></td>
-                    <td class="ip_table_under"><?PHP
-                        echo ($_SERVER['SERVER_ADDR']);
-                        ?></td>
-                </tr>
-                <tr>
-                    <td class="ip_table"><?php
-                        echo $messages["48"];
-                        ?></td>
-                    <td class="ip_table_under"><?php
-                        echo $currentVersion;
-                        ?></td>
-                </tr>
+                    <tr>
+                        <td class="ip_table"><?php
+                            echo $messages["46"];
+                            ?></td>
+                        <td class="ip_table_under"><?PHP
+                            echo ($_SESSION['username']);
+                            ?></td>
+                    </tr>
+                    <tr>
+                        <td class="ip_table"><?php
+                            echo $messages["47"];
+                            ?></td>
+                        <td class="ip_table_under"><?PHP
+                            echo ($_SERVER['SERVER_NAME']);
+                            ?></td>
+                    </tr>
+                    <tr>
+                        <td class="ip_table"><?php
+                            echo $messages["48"];
+                            ?></td>
+                        <td class="ip_table_under"><?php
+                            echo $currentVersion;
+                            ?></td>
+                    </tr>
                 </tbody>
             </table>
         </div>

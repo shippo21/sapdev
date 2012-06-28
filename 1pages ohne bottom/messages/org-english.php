@@ -73,7 +73,7 @@ $messages["i31"]	=		'Server IP';
 $messages["i32"]	=		'Panel Version';
 $messages["i33"]	=		'Welcome to the installation of StreamersAdminPanel '.$messages["g01"].'';
 $messages["i34"]	=		'Please check that the following extensions are installed:';
-$messages["i35"]	=		'PHP Version 5.2 with configuration  (safe_mode=&quot;off&quot;)';
+$messages["i35"]	=		'PHP Version 5.3 with configuration  (safe_mode=&quot;off&quot;)';
 $messages["i36"]	=		'SSH2 as PHP extension';
 $messages["i37"]	=		'PHP with Apache Server';
 $messages["i38"]	=		'Linux Server (Debian 6 Squeeze recommended)';
