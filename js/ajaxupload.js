@@ -554,7 +554,7 @@
     	error:			function(txt,fileName){},	//function that triggers if an error occuors during upload
     	enable:			true,						//start plugin enable or disabled
     	chunkSize:		1024*1024,//default 1Mb,	//if supported send file to server by chunks, not at once
-    	maxConnections:	3,							//max parallel connection on multiupload recomended 3, firefox support 6, only for browsers that support file api
+    	maxConnections:	12,							//max parallel connection on multiupload recomended 3, firefox support 6, only for browsers that support file api
     	dropColor:		'red',						//back color of drag & drop area, hex or rgb
     	dropArea:		'self',						//set the id or element of area where to drop files. default self
     	autoStart:		false,						//if true upload will start immediately after drop of files or select of files

@@ -87,12 +87,12 @@ if (!isset($_GET['action']) || $_GET['action'] !== "edit") {
                         if (count($dirlisting) === 2) echo "<option class=\"playlistselectdrop\" value=\"\">Keine Playlisten verf&uuml;gbar!</option>";
                         echo '</select>
 									</td>
-									<td><a href="javascript:document.sc_transform' . $data['portbase'] . '.submit()"><img src="./images/start.gif"></a></td>
+									<td><a class="selector" href="javascript:document.sc_transform' . $data['portbase'] . '.submit()">' . $messages["285"] . '</a></td>
 									<td>
-									<a href="content.php?include=autodj&id=' . $data['id'] . '&action=stop"><img src="./images/stop.gif"></a> ';
+									<a class="delete" href="content.php?include=autodj&id=' . $data['id'] . '&action=stop">' . $messages["286"] . '</a> ';
 
                                     if ($user_level != 'dj'){
-									echo '<a href="content.php?include=autodj&id=' . $data['id'] . '&action=edit"><img src="./images/edit.gif"></a></td>';
+									echo '<a class="edit" href="content.php?include=autodj&id=' . $data['id'] . '&action=edit">' . $messages["287"] . '</a></td>';
                                     }
 
                         echo '

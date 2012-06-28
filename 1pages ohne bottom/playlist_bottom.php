@@ -37,7 +37,7 @@ else {
 	$listing_start = $offset * entries_per_page - entries_per_page + 3;
 }					
 $listing_end = $offset * entries_per_page + 2;
-$dirlisting = @scandir("./temp/".$port."/playlist/") or $errors[] = "";
+$dirlisting = @scandir("./temp/".$port."/playlist") or $errors[] = "";
 if (!isset($dirlisting[$listing_start]))
 	$errors[] = "";
 ?>

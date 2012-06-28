@@ -191,7 +191,7 @@ else {
     }
 }
 $dirlistdir = @opendir("./uploads/".$port."/") or $errors[] = "<h2>".$messages["561"]."</h2>";
-define('entries_per_page',250);
+define('entries_per_page',7);
 if (!isset($_GET['filecount']) or !is_numeric($_GET['filecount'])) $offset = 1;
 else $offset = $_GET['filecount'];
 if ($offset == 1) {

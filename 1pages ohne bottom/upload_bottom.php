@@ -34,7 +34,10 @@
                     echo '-'.$negative_background_pos.'px 0px;"></div></td>';
                     ?>
                 </tr>
-
+                <tr class="upload_table">
+                    <td class="subnav_child"><?php echo $messages["535"];?></td>
+                    <td colspan="3" class="upload_table"><?php echo "".ini_get('upload_max_filesize')."B";?></td>
+                </tr>
                 <tr class="upload_table">
                     <td class="subnav_child"><?php echo $messages["536"];?></td>
                     <td colspan="3" class="upload_table">MP3</td>
@@ -100,11 +103,9 @@
                 continue;
             }
 
-if (($dirlisting[$i]!=".") and ($dirlisting[$i]!="..") and ($dirlisting[$i]!="")) {
-    $fnr = $i-1;
-    $thisfilename = substr($dirlisting[$i], 0, 55);                                if(strlen($dirlisting[$i]) > 55 ) $thisfilename = $thisfilename."...";
-    echo "<tr>
-        <td>$fnr. $thisfilename</td>
+            if (($dirlisting[$i]!=".") and ($dirlisting[$i]!="..") and ($dirlisting[$i]!="")) {
+                echo "<tr>
+								<td>$dirlisting[$i]</td>
 								<td>".round((filesize("./uploads/".$port."/".$dirlisting[$i])/1024), 2)." KB (".round((filesize("./uploads/".$port."/".$dirlisting[$i])/1024/1024), 2)." MB)</td>
 								<td><a class=\"delete\" href=\"content.php?include=upload&portbase=".$port."&delete=".base64_encode($dirlisting[$i])."\">".$messages["543"]."</a>
 								<a class=\"selector\" href=\"content.php?include=upload&portbase=".$port."&download=".base64_encode($dirlisting[$i])."\">".$messages["544"]."</a></td>
@@ -116,15 +117,15 @@ if (($dirlisting[$i]!=".") and ($dirlisting[$i]!="..") and ($dirlisting[$i]!="")
     </table>
     <tr>
         <td>
-            <div id="drophere" style="width:575px;height:200px;border: 1px solid black;">Drop-Here</div>
-            <div id="demo1" style="width:575px;"></div>
+            <div id="drophere" style="width:400px;height:200px;border: 1px solid black;">Drop-Here</div>
+            <div id="demo1" style="width:500px;"></div>
 
             <script type="text/javascript">
                 $('#demo1').ajaxupload({
                     url:'upload.php',
                     remotePath:'./uploads/<?php echo $_GET['portbase']; ?>',
                     dropArea:'#drophere',
-                    maxConnections: '18',
+                    maxConnections: '12',
                     allowExt: ['mp3'],
 
                     finish:function(filelist)

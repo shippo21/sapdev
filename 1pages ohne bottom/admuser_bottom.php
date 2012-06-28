@@ -55,7 +55,7 @@ if (stripos($_SERVER['PHP_SELF'], 'content.php') === false) {
                             echo "<tr>
 							<td>".$data['username']."</td>
 							<td>".mysql_num_rows($get_servers)." ".$messages["237"]."</td>
-							<td><a href=\"content.php?include=admuser&action=edit&id=".$data['id']."\"><img src=\"./images/edit.gif\"></a><a href=\"content.php?include=admuser&action=edit&id=".$data['id']."&function=delete\"><img src=\"./images/del.gif\"></a></td>
+							<td><a class=\"delete\" href=\"content.php?include=admuser&action=edit&id=".$data['id']."&function=delete\">".$messages["235"]."</a><a class=\"edit\" href=\"content.php?include=admuser&action=edit&id=".$data['id']."\">".$messages["236"]."</a></td>
 							</tr>";
                         }
                     }else{
@@ -65,7 +65,7 @@ if (stripos($_SERVER['PHP_SELF'], 'content.php') === false) {
                             echo "<tr>
 							<td>".$data['username']."</td>
 							<td>".mysql_num_rows($get_servers)." ".$messages["237"]."</td>
-							<td><a href=\"content.php?include=admuser&action=edit&id=".$data['id']."\"><img src=\"./images/edit.gif\"></a><a href=\"content.php?include=admuser&action=edit&id=".$data['id']."&function=delete\"><img src=\"./images/del.gif\"></a></td>
+							<td><a class=\"delete\" href=\"content.php?include=admuser&action=edit&id=".$data['id']."&function=delete\">".$messages["235"]."</a><a class=\"edit\" href=\"content.php?include=admuser&action=edit&id=".$data['id']."\">".$messages["236"]."</a></td>
 							</tr>";
                         }
                     }
@@ -153,8 +153,8 @@ if (stripos($_SERVER['PHP_SELF'], 'content.php') === false) {
                          <option value="User" <? if($userdata['user_level'] == 'User') echo'selected="selected"'  ?>>User</option>
                         <?php }else{};?>
 
-                        <option value="dj" <? if($userdata['user_level'] == 'dj') echo'selected="selected"' ?>>DJ</option>
-                        <option value="banned" <? if($userdata['user_level'] == 'banned') echo'selected="selected"' ?>>Disable (sperren)</option>
+                        <option value="dj" <? if($userdata['user_level'] == 'dj') echo'selected="selected"' ?>>Dj-Moderator</option>
+                        <option value="banned" <? if($userdata['user_level'] == 'banned') echo'selected="selected"' ?>>Disable</option>
                         </select>
                         <span class="field_desc">DJ bitte einem Benutzer zuordnen!</span>
                         <?php
@@ -162,9 +162,20 @@ if (stripos($_SERVER['PHP_SELF'], 'content.php') === false) {
 
                     if ($_GET['action'] != "newuser" && $userdata['user_level'] != 'User'){
 					?>
+                <div class="input_field">
+                    <label for="a">Benutzerzuordnung</label>
+                    <select class="formselect_loca" name="seluser">
+                        <option>Bitte Benutzer wählen!</option>
+                        <?php
+                    $userlist= mysql_query("SELECT * FROM users WHERE user_level ='User'");
+                    while($lsituser = mysql_fetch_object($userlist)) {
+                        echo "<option value=".$lsituser->id.">".$lsituser->username."</option>";
+                    }
 
-                  
-                
+                    ?>
+                    </select>
+                    <span class="field_desc">Zu welchem Benutzer gehört der DJ</span>
+                </div>
 
                     <?php } ?>
 

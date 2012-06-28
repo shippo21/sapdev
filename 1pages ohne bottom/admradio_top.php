@@ -181,7 +181,7 @@ if (isset($_GET['view'])) {
                     }
                 }
                 if ($setting['os'] == 'linux') {
-                    $filename = "temp/conf" . mysql_result($radioport, 0) . "_" . time() . ".conf";
+                    $filename = "temp/conf/" . mysql_result($radioport, 0) . "_" . time() . ".conf";
                 }
                 if (!$handle = fopen($filename, 'a')) {
                     $errors[] = "<h2>" . $messages["178"] . "</h2>";
@@ -192,32 +192,27 @@ if (isset($_GET['view'])) {
                     fclose($handle);
                 }
                 else {
-                        if ($setting['os'] == 'linux') {
+                    if ($setting['os'] == 'linux') {
 
-                            if ($setting["shellset"] == 'ssh2'){
-                                $connection = ssh2_connect('localhost', $setting['ssh_port']);
-                                ssh2_auth_password($connection, ''.base64_decode($setting['ssh_user']).'', ''.base64_decode($setting['ssh_pass']).'');
-                                $ssh2_exec_com = ssh2_exec($connection, 'sudo -u '.base64_decode($setting['ssh_user']).' '.$setting["dir_to_cpanel"].'files/linux/sc_serv.bin '.$setting["dir_to_cpanel"].$filename.' </dev/null 2>/dev/null >/dev/null & echo $!');
-                                sleep(4);
-                                $pid = stream_get_contents($ssh2_exec_com);
-                                if (!$pid || $pid == "") {
-                                    mysql_query("INSERT INTO notices (username,reason,message,ip) VALUES('".mysql_real_escape_string($loginun)."','Server failure','The server with id ".mysql_real_escape_string($_GET['view'])." cannot start on port ".mysql_real_escape_string($serverdata['portbase'])."','".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."')");
-                                    $errors[] = "<h2>".$messages["517"]."</h2>";
-                                }
-
-                            }elseif($setting["shellset"] == 'shellexec'){
-                                $pid = shell_exec("nohup " . $setting['dir_to_cpanel'] . "files/linux/sc_serv.bin " . $setting['dir_to_cpanel'] . $filename . " > /dev/null & echo $!");
-                            }
-
-                            if (!$pid || $pid == "") {
-                                mysql_query("INSERT INTO notices (username,reason,message,ip) VALUES('" . mysql_real_escape_string($loginun) . "','Server failure','The server with id " . mysql_real_escape_string($_GET['view']) . " cannot start on port " . mysql_real_escape_string($serverdata['portbase']) . "','" . mysql_real_escape_string($_SERVER['REMOTE_ADDR']) . "')");
-                                $errors[] = "<h2>" . $messages["517"] . "</h2>";
-                            }
+                        if ($messages["shell"] == 'ssh2'){
+                            $connection = ssh2_connect('localhost', $setting['ssh_port']);
+                            ssh2_auth_password($connection, '' . base64_decode($setting['ssh_user']) . '', '' . base64_decode($setting['ssh_pass']) . '');
+                            $ssh2_exec_com = ssh2_exec($connection, $setting["dir_to_cpanel"] . 'files/linux/sc_serv.bin ' . $setting["dir_to_cpanel"] . $filename . ' </dev/null 2>/dev/null >/dev/null & echo $!');
+                            sleep(3);
+                            $pid = stream_get_contents($ssh2_exec_com);
+                        }elseif($messages["shell"] == 'shellexec'){
+                            $pid = shell_exec("nohup " . $setting['dir_to_cpanel'] . "files/linux/sc_serv.bin " . $setting['dir_to_cpanel'] . $filename . " > /dev/null & echo $!");
                         }
-
-                        mysql_query("UPDATE servers SET pid='$pid' WHERE id='" . $_GET['view'] . "'");
-                        $correc[] = "<h2>" . $messages["518"] . "</h2>";
-                        if ($setting["scs_config"] == "0") {
+                        sleep(3);
+                        $pid = stream_get_contents($ssh2_exec_com);
+                        if (!$pid || $pid == "") {
+                            mysql_query("INSERT INTO notices (username,reason,message,ip) VALUES('" . $loginun . "','Server failure','The server with id " . mysql_real_escape_string($_GET['view']) . " cannot start on port " . $serverdata['portbase'] . "','" . $_SERVER['REMOTE_ADDR'] . "')");
+                            $errors[] = "<h2>" . $messages["180"] . "</h2>";
+                        }
+                    }
+                    mysql_query("UPDATE servers SET pid='$pid' WHERE id='" . $_GET['view'] . "'");
+                    $correc[] = "<h2>" . $messages["181"] . "</h2>";
+                    if ($setting["scs_config"] == "0") {
                         unlink($filename);
                     }
                 }
@@ -227,66 +222,33 @@ if (isset($_GET['view'])) {
     
     //Anfang stop
 	
-        if (isset($_GET['action']) && $_GET['action'] == "stop") {
-            $radioport = mysql_query("SELECT portbase FROM servers WHERE id='" . $_GET['view'] . "'");
-            $connection = @fsockopen($setting['host_add'], mysql_result($radioport, 0), $errno, $errstr, 1);
-            if (!$connection) {
-                $errors[] = "<h2>" . $messages["519"] . "</h2>";
-            }
-            else {
-                $pid = mysql_query("SELECT pid FROM servers WHERE id='" . $_GET['view'] . "'");
-                if (mysql_result($pid, 0) == "") {
-                    $errors[] = "<h2>" . $messages["520"] . "</h2>";
-                }
-                else {
-                    if ($setting["os"] == "windows") {
-                        $WshShell = new COM("WScript.Shell");
-                        $oExec = $WshShell->Run("taskkill /pid " . mysql_result($pid, 0) . " /f", 3, false);
-                    }
-                    if ($setting["os"] == "linux") {
-                        if ($setting["shellset"] == 'ssh2'){
-                            $connection = ssh2_connect('localhost', $setting['ssh_port']);
-                            ssh2_auth_password($connection, ''.base64_decode($setting['ssh_user']).'', ''.base64_decode($setting['ssh_pass']).'');
-                            $ssh2_exec_com = ssh2_exec($connection, 'kill '.mysql_result($pid,0));
-                            sleep(2);
-
-                        }elseif($setting["shellset"] == 'shellexec'){
-
-
-                            $output = shell_exec("kill " . mysql_result($pid, 0));
-                            sleep(2);
-
-
-                        }
-
-                    }
-                    $notifi[] = "<h2>" . $messages["521"] . "</h2>";
-                }
-            }
-        }
-
-
-if (isset($_GET['manage'])) {
-    if (isset($_GET['action'])) {
-        $fields = "";
-        $values = "";
-        foreach ($_POST as $key => $value) {
-            if ($key != "submit" && $value != "" && $key != "id") {
-                $fields .= $key . "='" . $value . "', ";
-                $lastfield = $key;
-                $lastvalue = $value;
-            }
-        }
-        $fields = explode($lastfield, $fields);
-        $fields = $fields['0'] . $lastfield . "='" . $lastvalue . "'";
-        if (mysql_query("UPDATE servers SET $fields WHERE id='" . $_GET['manage'] . "'")) {
-            $correc[] = "<h2>" . $messages["522"] . "</h2>";
-        }
-        else {
-            $errors[] = "<h2>" . $messages["523"] . "</h2>";
-        }
-    }
-}
+						if (isset($_GET['action']) && $_GET['action']=="stop") {
+			$radioport = mysql_query("SELECT portbase FROM servers WHERE id='".$_GET['view']."'");
+			$connection = @fsockopen($setting['host_add'], mysql_result($radioport,0), $errno, $errstr, 1);
+			if (!$connection) {
+				$errors[] = "<h2>".$messages["519"]."</h2>";
+			}
+			else{
+				$pid = mysql_query("SELECT pid FROM servers WHERE id='".$_GET['view']."'");
+				if (mysql_result($pid,0)=="") {
+					$errors[] = "<h2>".$messages["520"]."</h2>";
+				}
+				else {
+					if ($setting["os"]=="windows") {
+						$WshShell = new COM("WScript.Shell");
+						$oExec = $WshShell->Run("taskkill /pid ".mysql_result($pid,0)." /f", 3, false);
+					}
+					if ($setting["os"]=="linux") {
+						$connection = ssh2_connect('localhost', $setting['ssh_port']);
+						ssh2_auth_password($connection, ''.base64_decode($setting['ssh_user']).'', ''.base64_decode($setting['ssh_pass']).'');
+						$ssh2_exec_com = ssh2_exec($connection, 'kill '.mysql_result($pid,0));
+						sleep(2);
+					}
+					$notifi[] = "<h2>".$messages["521"]."</h2>";
+				}
+			}
+		}
+	
 //Ende Stop	
     
     

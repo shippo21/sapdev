@@ -102,7 +102,7 @@ if (!isset($_GET['manage'])) {
 								}
 								$negative_background_pos = ($actual_dir_size/$data['webspace'])*120;
 								echo '-'.$negative_background_pos.'px 0px;"></div></td>
-									<td><a href="content.php?include=server&view='.$data["id"].'&action=restart"><img src="./images/start.gif"></a><a href="content.php?include=server&view='.$data["id"].'&action=stop"><img src="./images/stop.gif"></a><a href="content.php?include=server&manage='.$data["id"].'"><img src="./images/edit.gif"></a></td>
+									<td><a class="delete" href="content.php?include=server&view='.$data["id"].'&action=stop">'.$messages["441"].'</a><a class="selector" href="content.php?include=server&view='.$data["id"].'&action=start">'.$messages["442"].'</a><a class="edit" href="content.php?include=server&manage='.$data["id"].'">'.$messages["443"].'</a></td>
 									</tr>';
 							}
 						}

@@ -90,7 +90,7 @@ $messages["i31"]	=		'Server IP';
 $messages["i32"]	=		'Panel Version';
 $messages["i33"]	=		'Wilkommen zur Installation von Streamers Admin Panel '.$messages["g01"].'';
 $messages["i34"]	=		'Vor der Installation bitte prüfen ob folgende Erweiterungen auf dem Server installiert sind:';
-$messages["i35"]	=		'PHP Version 5.2 mit der Konfiguration  (safe_mode=&quot;off&quot;)';
+$messages["i35"]	=		'PHP Version 5.3 mit der Konfiguration  (safe_mode=&quot;off&quot;)';
 $messages["i36"]	=		'SSH2 als PHP extension';
 $messages["i37"]	=		'PHP auf Apache Server';
 $messages["i38"]	=		'Linux Server (Debian 6 Squeeze empfohlen)';
@@ -199,19 +199,13 @@ $messages["40"]		=		"server und zugriff";
 $messages["41"]		=		"Servereinstellungen";
 $messages["42"]		=		"Radioserver Konfiguration";
 $messages["43"]		=		"Benutzerkonten";
-$messages["nws1"]   =       "Server News";
+$messages["nws1"]   =       "Server Nachrichten";
 $messages["44"]		=		"Informationen";
-$messages["45"]		=		"Loginname und Servername";
-$messages["46"]		=		"Benutzername";
-$messages["47"]		=		"Servername";
+$messages["45"]		=		"ip und versionsinfo";
+$messages["46"]		=		"Benutzer IP";
+$messages["47"]		=		"Server IP";
 $messages["48"]		=		"Version";
 $messages["49"]		=		"Bitte Playlist leeren und dann Daten einf&uuml;gen"; 	// not used anymore, xml error on output
-
-$messages["565"]	=		"Webtools";
-$messages["566"]	=		"Streambox, usw.";
-$messages["567"]	=		"Servername";
-$messages["568"]    =       "Streambox Gernerator";
-$messages["569"]    =       "Webplayer";
 //
 //
 //	./messages.php
@@ -821,9 +815,6 @@ $messages["adm"]		=		"Updates";
 //
 $messages["urlformat"]  =      "HomepagesUrl mit http://";
 $messages["urlformat1"]  =     "zb. http://www.deineurl.de";
-
-
-
 //
 //
 //	language credit

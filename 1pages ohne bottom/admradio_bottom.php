@@ -79,9 +79,12 @@ if (stripos($_SERVER['PHP_SELF'], 'content.php') === false) {
             }
             $negative_background_pos = ($actual_dir_size / $data['webspace']) * 120;
             echo '-' . $negative_background_pos . 'px 0px;"></div></td>
-								<td><a href="content.php?include=admradio&view='.$data["id"].'&action=restart"><img src="./images/start.gif"></a><a href="content.php?include=admradio&view='.$data["id"].'&action=stop"><img src="./images/stop.gif"></a><a href="content.php?include=admradio&action=update&view='.$data["id"].'"><img src="./images/edit.gif"></a><a href="content.php?include=admradio&view='.$data["id"].'&action=delete"><img src="./images/del.gif"></a></td>
+								<td><a class="delete" href="content.php?include=admradio&view=' . $data["id"] . '&action=delete">' . $messages["95"] . '</a>
+								 <!---
+								<a class="selector" href="content.php?include=admradio&view=' . $data["id"] . '&action=restart">' . $messages["96"] . '</a>
+								--->
+								<a class="edit" href="content.php?include=admradio&action=update&view=' . $data["id"] . '">' . $messages["97"] . '</a></td>
 								</tr>';
-								
         }
     }
     ?>
@@ -229,6 +232,7 @@ if (stripos($_SERVER['PHP_SELF'], 'content.php') === false) {
     <label for="a"><?php echo $messages["122"];?></label>
     <input class="mediumfield" readonly="readonly" name="logfile" type="text"
            value="<?php if ($_GET['action'] == "update") {
+               // echo $updateget_var_t_logfile;
                $updateget_var_t_logfile = str_replace("/var/www/virtual/sap.dashtec.de/htdocs/logs/", "", $updateget_var_t_logfile);
                echo $updateget_var_t_logfile;
            } else {

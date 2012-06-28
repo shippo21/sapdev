@@ -52,7 +52,7 @@ else {
 if (($_GET['indiv'] == "0") && (isset($_GET['listname'])) && ($_GET['delete'] == "1")) {
 	$deletefiledecoded = strip_tags(str_replace('/', '', base64_decode($_GET['listname'])));
 	if (file_exists("./temp/".$port."/playlist/".$deletefiledecoded."")) {
-		unlink("./temp/".$port."/playlist/".$deletefiledecoded."");
+		//unlink("./temp/".$port."/playlist/".$deletefiledecoded."");
 		$correc[] = "<h2>".$messages["407"]."</h2>";
 	}
 	else {
@@ -66,7 +66,7 @@ if (($_GET['indiv'] == "0") && (isset($_GET['listname'])) && ($_GET['delete'] ==
 		fclose($playlistfilecreate);
 		chmod("./temp/".$port."/playlist/".$deletefiledecoded."",0777);
 	}
-	shell_exec('find '.$setting['dir_to_cpanel'].'uploads/'.$port.'/ -type f -name "*.mp3" > '.$setting['dir_to_cpanel'].'temp/'.$port.'/playlist/"'.$deletefiledecoded.'"');	
+	shell_exec('find '.$setting['dir_to_cpanel'].'/uploads/'.$port.'/ -type f -name "*.mp3" > '.$setting['dir_to_cpanel'].'temp/'.$port.'/playlist/"'.$deletefiledecoded.'"');
 	$correc[] = "<h2>".$messages["410"]."</h2>";	
 }
 if ($_GET['delete'] !== "1") {
@@ -84,7 +84,7 @@ if ($_GET['delete'] !== "1") {
 							$filehandle = fopen($postvar_name, "w+");
 							$tok = explode(',',$postvar_form);
 							foreach ($tok as $playlistentry) {
-								fwrite($filehandle, $setting['dir_to_cpanel']."uploads/".$port."".$playlistentry."\n");
+								fwrite($filehandle, $setting['dir_to_cpanel']."/uploads/".$port."".$playlistentry."\n");
 							}
 							fclose($filehandle);
 							chmod($postvar_name,0777);
@@ -114,7 +114,7 @@ if ($_GET['delete'] !== "1") {
 					$filehandle = fopen($postvar_name, "w+");
 					$tok = explode(',',$postvar_form);
 					foreach ($tok as $playlistentry) {
-						fwrite($filehandle, $setting['dir_to_cpanel']."uploads/".$port."".$playlistentry."\n");
+						fwrite($filehandle, $setting['dir_to_cpanel']."/uploads/".$port."".$playlistentry."\n");
 					}
 					fclose($filehandle);
 					chmod($postvar_name,0777);
